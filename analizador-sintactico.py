@@ -19,8 +19,9 @@ def getToken():
 
 def tmatch (spectedToken):
     if(not spectedToken == currentToken):
+        global errcount
         errcount += 1
-        print("error en la posicion:" + str(currentIndex) + ", se esperaba>>" + spectedToken, "y se encontró>> " + currentToken)
+        print("error en la posicion:" + str(currentIndex) + ", se esperaba >>" + spectedToken, "y se encontro >> " + currentToken)
     getToken()
 
 
