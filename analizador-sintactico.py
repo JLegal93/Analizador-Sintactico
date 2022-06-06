@@ -2,6 +2,8 @@ currentIndex = 0
 currentToken = ''
 fileText = open("fuente.txt", "r").read()
 output_file = open("output_file.txt", "w")
+errcount = 0
+
 def getToken():
     global currentToken
     global currentIndex
@@ -15,11 +17,12 @@ def getToken():
         currentToken = 'eof'
         return False
 
-
 def tmatch (spectedToken):
     if(not spectedToken == currentToken):
-        print("error en la posicion:" + str(currentIndex) + ",se esperaba:" + spectedToken, "y se encontró:" + currentToken)
+        errcount += 1
+        print("error en la posicion:" + str(currentIndex) + ", se esperaba>>" + spectedToken, "y se encontró>> " + currentToken)
     getToken()
+
 
 def stringrp():
     if (currentToken == '"'):
@@ -41,12 +44,17 @@ def list():
     tmatch('[')
     if (currentToken == '{'):
         obj()
-    else:
-        attr()
-
-    tmatch(']')
+    elif(currentToken == '{' 
+        or currentToken == '[' 
+        or currentToken == '"' 
+        or currentToken.isnumeric()
+        or currentToken == 't'
+        or currentToken == 'f'):
+        value()
     if (currentToken == ']'):
-        output_file.write('L_CORCHETE\n\t')
+        output_file.write('R_CORCHETE\n\t')
+    tmatch(']')
+
 
 
 def truer():
@@ -73,8 +81,6 @@ def numberr():
     if (currentToken.isnumeric()):
         getToken()
         numberr()
-    else:
-        value()
 
 def value():
     if (currentToken == '{'):
@@ -86,16 +92,12 @@ def value():
     elif (currentToken == 't'):
         truer()
     elif (currentToken == 'f'):
-        falser() 
+        falser()
     elif (currentToken.isnumeric()):
         output_file.write('NUMBER ')
         numberr()
-    elif (currentToken == ','):
-        output_file.write('COMA \n\t')
-        tmatch(',')
-        value()
     else:
-        tmatch('inicio de un valor: ({,[,",true, false, number o una coma)')
+        tmatch("{,[,\",true,false")
 
 def attr():
     stringr()
@@ -127,6 +129,8 @@ def obj():
 def json():
     getToken()
     obj()
+    if (errcount < 1):
+        print("No se han encontrado errores de sintaxis.")
     output_file.close()
 
 
