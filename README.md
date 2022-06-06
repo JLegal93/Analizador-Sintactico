@@ -1,2 +1,2 @@
 # Analizador-Sintactico
-Python 3.9, el fuente debe estar en la misma carpeta que el archivo .py del programa
+Python 3.8, el fuente debe estar en la misma carpeta que el archivo .py del programa
