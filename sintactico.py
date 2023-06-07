@@ -8,9 +8,6 @@ errcount = 0
 def getToken():
     global currentToken
     global currentIndex
-    global tacum 
-    tacum += currentToken
-    
     
     if(currentIndex < len(fileText)-1):
         currentToken = fileText[currentIndex]
