@@ -4,9 +4,7 @@
          "ci":"",
          "nombre":"Julio Pérez",
          "casado":null,
-         "hijos":[  
-
-         ]
+         "hijos":[ ]
       },
       {  
          "ci":7654321,
@@ -19,7 +17,7 @@
             },
             {  
                "nombre":"Valeria",
-               "edad":16
+               "edad":null
             }
          ]
       }

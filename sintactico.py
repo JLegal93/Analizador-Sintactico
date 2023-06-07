@@ -1,5 +1,6 @@
 currentIndex = 0
 currentToken = ''
+tacum = ''
 fileText = open("fuente.txt", "r").read()
 output_file = open("output_file.txt", "w")
 errcount = 0
@@ -7,7 +8,10 @@ errcount = 0
 def getToken():
     global currentToken
     global currentIndex
-    #print(currentToken)
+    global tacum 
+    tacum += currentToken
+    
+    
     if(currentIndex < len(fileText)-1):
         currentToken = fileText[currentIndex]
         currentIndex += 1
@@ -41,6 +45,7 @@ def stringr():
     stringrp()
 
 def list():
+    
     if (currentToken == '['):
         output_file.write('L_CORCHETE \n\t')
     tmatch('[')
@@ -54,10 +59,10 @@ def list():
         or currentToken == 'f'
         or currentToken == 'n'):
         value()
-    elif (currentToken == ','):
+    if (currentToken == ','):
         output_file.write('COMA \n\t')
         tmatch(',')
-        attr()
+        value()
     if (currentToken == ']'):
         output_file.write('R_CORCHETE\n\t')
     tmatch(']')
