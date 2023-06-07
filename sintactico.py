@@ -7,6 +7,7 @@ errcount = 0
 def getToken():
     global currentToken
     global currentIndex
+    #print(currentToken)
     if(currentIndex < len(fileText)-1):
         currentToken = fileText[currentIndex]
         currentIndex += 1
@@ -50,8 +51,13 @@ def list():
         or currentToken == '"' 
         or currentToken.isnumeric()
         or currentToken == 't'
-        or currentToken == 'f'):
+        or currentToken == 'f'
+        or currentToken == 'n'):
         value()
+    elif (currentToken == ','):
+        output_file.write('COMA \n\t')
+        tmatch(',')
+        attr()
     if (currentToken == ']'):
         output_file.write('R_CORCHETE\n\t')
     tmatch(']')
@@ -68,13 +74,24 @@ def truer():
             output_file.write('PR_TRUE ')
             getToken()
 
+def nullr():
+    if (currentToken == 'n'):
+        nullStr = currentToken
+        for number in range(3):
+            getToken()
+            nullStr += currentToken
+            
+        if (nullStr.lower() == 'null'):
+            output_file.write('PR_NULL ')
+            getToken()
+
 def falser():
     if (currentToken == 'f'):
-        trueString = currentToken
+        falseString = currentToken
         for number in range(4):
             getToken()
-            trueString += currentToken
-        if (trueString.lower() == 'false'):
+            falseString += currentToken
+        if (falseString.lower() == 'false'):
             output_file.write('PR_FALSE ')
             getToken()
 
@@ -84,16 +101,19 @@ def numberr():
         numberr()
 
 def value():
+    
     if (currentToken == '{'):
         obj()
     elif (currentToken == '['):
         list()
     elif (currentToken == '"'):
         stringr()
-    elif (currentToken == 't'):
+    elif (currentToken.lower() == 't'):
         truer()
-    elif (currentToken == 'f'):
+    elif (currentToken.lower() == 'f'):
         falser()
+    elif (currentToken.lower() == 'n'):
+        nullr()
     elif (currentToken.isnumeric()):
         output_file.write('NUMBER ')
         numberr()
@@ -116,14 +136,13 @@ def obj():
     if (currentToken == '{'):
         output_file.write('L_LLAVE \n\t')
     tmatch('{')
-    attr()
+    if (currentToken == '"'):
+        output_file.write('STRING')
+        attr()
     if (currentToken == '}'):
         output_file.write('R_LLAVE\n')
     tmatch('}')
-    if (currentToken == ','):
-        output_file.write('COMA \n\t')
-        tmatch(',')
-        obj()
+
 
 
 
